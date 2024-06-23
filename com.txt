@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from Post.models import *
+from posts.models import *
 
 user1 = User.objects.create(username='user1')
 user2 = User.objects.create(username='user2')
