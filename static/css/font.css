@@ -1,0 +1,8 @@
+
+@font-face {
+    font-family: 'pixel';
+    src: url('/static/font/Minecraft Seven Cyrillic (russian) Regular.ttf') format('truetype'); /* Формат шрифта TTF */
+}
+.font-pixel {
+    font-family: 'pixel', sans-serif;
+}

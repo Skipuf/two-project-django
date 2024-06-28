@@ -20,9 +20,15 @@ class Author(models.Model):
         self.rating = (rating_post * 3) + rating_com + rating_com_posts
         self.save()
 
+    def __str__(self):
+        return str(self.user_id.author.user_id.username)
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Post(models.Model):
@@ -55,10 +61,16 @@ class Post(models.Model):
     def preview(self) -> str:
         return self.content[:124] + "..."
 
+    def __str__(self):
+        return f"{self.title} - {self.datetime_creation.date()}"
+
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.post} - {self.category}"
 
 
 class Comment(models.Model):
@@ -75,3 +87,6 @@ class Comment(models.Model):
     def dislike(self) -> None:
         self.rating -= 1
         self.save()
+
+    def __str__(self):
+        return f"{self.author} - {self.datetime_creation.date()}"

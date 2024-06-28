@@ -1,0 +1,18 @@
+{% extends 'flatpages/default.html' %} 
+
+{% load custom_filters %}
+
+{% block title %}
+    Новость {{ new.id }}
+{% endblock title %}
+
+{% block content %}
+    <div class="m-5 card">
+        <div class="card-body">
+            <h1 class="card-title">{{ new.title|censor }}</h1>
+            <h3 class="card-subtitle mb-2 text-body-secondary">{{ new.author.user_id.username }}</h3>
+            <h3 class="card-subtitle mb-2 text-body-secondary">{{ new.datetime_creation|date:"d.m.Y" }}</h3>
+            <h4 class="card-text">{{ new.content|censor }}</h4>
+        </div>
+    </div>
+{% endblock content %}
