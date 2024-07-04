@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+    <div class="m-5 card">
+        <div class="card-body">
+            <h1 class="card-title">Удаление товара</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                <h4 class="card-text">Удаляем "{{ object.title }}"?</h4>
+                <input class="btn btn-outline-danger" type="submit" value="Delete" />
+            </form>
+        </div>
+    </div>
+{% endblock content %}

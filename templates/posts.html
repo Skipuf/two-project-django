@@ -1,0 +1,47 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_tags %}
+{% load custom_filters %}
+
+{% block title %}
+    Посты
+{% endblock title %}
+
+{% block content %}
+    <h1 class="m-5">Страница {{ page_obj.number }}</h1>
+    <div class="ms-5 d-flex">
+        <a class="btn btn-outline-light" href="{% url 'post_search' %}">поиск</a>
+        <a class="btn btn-outline-light mx-1" href="{% url 'create_news' %}">Создать новость</a>
+        <a class="btn btn-outline-light" href="{% url 'create_articles' %}">Создать статью</a>
+    </div>
+    {% if news %}
+        {% for new in news %}
+            <div class="m-5 card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ new.title|censor }}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ new.datetime_creation|date:"d.m.Y" }}</h6>
+                    <p class="card-text">{{ new.content|truncatewords:20|censor }}</p>
+                    <a href="{{ new.id }}" class="btn btn-outline-light">Читать</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h2 class="m-5">Новостей нет!</h2>
+    {% endif %}
+
+    <div class="m-5 d-flex justify-content-center">
+        {% if page_obj.has_previous %}
+            <a class="btn btn-danger me-1" href="?{% url_replace page=page_obj.previous_page_number %}">Назад</a>
+        {% else %}
+            <a class="btn btn-danger me-1 disabled" aria-disabled="true">Назад</a>
+        {% endif %}
+    
+        <a class="btn btn-outline-light" aria-disabled="true">{{ page_obj.number }}</a>
+    
+        {% if page_obj.has_next %}
+            <a class="btn btn-success ms-1" href="?{% url_replace page=page_obj.next_page_number %}">Вперед</a>
+        {% else %}
+            <a class="btn btn-success ms-1 disabled" aria-disabled="true">Вперед</a>
+        {% endif %}
+    </div>
+{% endblock content %}

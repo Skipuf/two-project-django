@@ -1,0 +1,13 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+    <div class="m-5 card">
+        <div class="card-body">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input class="btn btn-outline-success" type="submit" value="Сохранить" />
+            </form>
+        </div>
+    </div>
+{% endblock content %}
