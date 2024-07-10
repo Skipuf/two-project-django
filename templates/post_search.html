@@ -17,10 +17,12 @@
            <input class="btn btn-outline-light" type="submit" value="Найти" />
        </form>
     </div>
-    <div class="ms-5 d-flex">
-        <a class="btn btn-outline-light" href="{% url 'create_news' %}">Создать новость</a>
-        <a class="btn btn-outline-light mx-1" href="{% url 'create_articles' %}">Создать статью</a>
-    </div>
+    {% if perms.posts.add_post %}
+        <div class="ms-5 d-flex">
+            <a class="btn btn-outline-light" href="{% url 'create_news' %}">Создать новость</a>
+            <a class="btn btn-outline-light mx-1" href="{% url 'create_articles' %}">Создать статью</a>
+        </div>
+    {% endif %}
     {% if news %}
         {% for new in news %}
             <div class="m-5 card">

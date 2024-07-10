@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from .forms import FormCreateNews, FormEditPost
 from .models import Post
@@ -48,12 +49,11 @@ class PostDetail(DetailView):
 
 
 # Добавляем новое представление для создания товаров.
-class CreateNews(CreateView):
-    # Указываем нашу разработанную форму
+class CreateNews(PermissionRequiredMixin, CreateView):
+    permission_required = ('posts.add_post',)
+    raise_exception = True
     form_class = FormCreateNews
-    # модель товаров
     model = Post
-    # и новый шаблон, в котором используется форма.
     template_name = 'post_edit.html'
 
     def form_valid(self, form):
@@ -62,7 +62,9 @@ class CreateNews(CreateView):
         return super().form_valid(form)
 
 
-class CreateArticles(CreateView):
+class CreateArticles(PermissionRequiredMixin, CreateView):
+    permission_required = ('posts.add_post',)
+    raise_exception = True
     form_class = FormCreateNews
     model = Post
     template_name = 'post_edit.html'
@@ -73,13 +75,17 @@ class CreateArticles(CreateView):
         return super().form_valid(form)
 
 
-class EditPost(UpdateView):
+class EditPost(PermissionRequiredMixin, UpdateView):
+    permission_required = ('posts.change_post',)
+    raise_exception = True
     form_class = FormEditPost
     model = Post
     template_name = 'post_edit.html'
 
 
-class DelPost(DeleteView):
+class DelPost(PermissionRequiredMixin, DeleteView):
+    permission_required = ('posts.delete_post',)
+    raise_exception = True
     model = Post
     template_name = 'post_del.html'
     success_url = reverse_lazy('post_list')

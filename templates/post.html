@@ -14,8 +14,12 @@
             <h3 class="card-subtitle mb-2 text-body-secondary">{{ new.datetime_creation|date:"d.m.Y" }}</h3>
             <h4 class="card-text">{{ new.content|censor }}</h4>
             <div class="d-flex">
-                <a class="btn btn-outline-success" href="{{ new.id }}/edit">Изменить</a>
-                <a class="btn btn-outline-danger mx-1" href="{{ new.id }}/del">Удалить</a>
+                {% if perms.posts.change_post %}
+                    <a class="btn btn-outline-success" href="{{ new.id }}/edit">Изменить</a>
+                {% endif %}
+                {% if perms.posts.delete_post %}
+                    <a class="btn btn-outline-danger mx-1" href="{{ new.id }}/del">Удалить</a>
+                {% endif %}
             </div>
         </div>
     </div>

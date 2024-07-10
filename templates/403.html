@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %} 
+
+{% load custom_filters %}
+
+{% block title %}
+    Ошибка 403
+{% endblock title %}
+
+{% block content %}
+    <div class="d-flex flex-column align-items-center">
+        <h1 class="text-center">Похоже, вы попали на страницу, которая вам не доступна...</h1>
+        <a class="text-center link-light fs-2" href="{% url 'post_list' %}">Вернуться обратно</a>
+    </div>
+{% endblock content %}
