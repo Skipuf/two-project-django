@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -5,6 +6,8 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from .forms import FormCreateNews, FormEditPost
 from .models import Post
 from .filters import NewsFilter
+
+from subscriptions.tasks import send_email_create_post
 
 
 class PostSearch(ListView):
@@ -49,7 +52,7 @@ class PostDetail(DetailView):
 
 
 # Добавляем новое представление для создания товаров.
-class CreateNews(PermissionRequiredMixin, CreateView):
+class CreatePost(PermissionRequiredMixin, CreateView):
     permission_required = ('posts.add_post',)
     raise_exception = True
     form_class = FormCreateNews
@@ -57,22 +60,14 @@ class CreateNews(PermissionRequiredMixin, CreateView):
     template_name = 'post_edit.html'
 
     def form_valid(self, form):
-        news = form.save(commit=False)
-        news.type_post = Post.news
-        return super().form_valid(form)
-
-
-class CreateArticles(PermissionRequiredMixin, CreateView):
-    permission_required = ('posts.add_post',)
-    raise_exception = True
-    form_class = FormCreateNews
-    model = Post
-    template_name = 'post_edit.html'
-
-    def form_valid(self, form):
-        news = form.save(commit=False)
-        news.type_post = Post.article
-        return super().form_valid(form)
+        post = form.save()
+        if self.kwargs.get('type') == 'news':
+            post.type_post = Post.news
+        else:
+            post.type_post = Post.article
+        post.save()
+        send_email_create_post.delay(post.id)
+        return redirect(post.get_absolute_url())
 
 
 class EditPost(PermissionRequiredMixin, UpdateView):
