@@ -60,8 +60,6 @@ class CreatePost(PermissionRequiredMixin, CreateView):
     template_name = 'post_edit.html'
 
     def form_valid(self, form):
-        123 + "123"
-
         post = form.save()
         if self.kwargs.get('type') == 'news':
             post.type_post = Post.news
