@@ -60,8 +60,8 @@ def weekly_newsletter():
 
     for email, posts in emails_users.items():
         subject = 'Дайджест по понедельникам!'
-        text = f'Пришло время прочитать посты из ваших любимых категорий!'
-        html = f'<b>Пришло время прочитать посты из ваших любимых категорий!</b>'
+        text = 'Пришло время прочитать посты из ваших любимых категорий!'
+        html = '<b>Пришло время прочитать посты из ваших любимых категорий!</b>'
         for post in posts:
             text += f'\n{post.title} - http://127.0.0.1:8000/{post.get_absolute_url()}'
             html += f'<br><a href="http://127.0.0.1:8000/{post.get_absolute_url()}">{post.title}</a>,'
