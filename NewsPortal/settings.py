@@ -235,30 +235,30 @@ LOGGING = {
             'filename': 'log/general.log',
             'formatter': 'format_file',
         },
-        'file_error': {
+        'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'format_error_admin',
+        },
+        #
+        'file_error': {
+            'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': 'log/errors.log',
             'formatter': 'format_error',
         },
         'file_security': {
             'level': 'INFO',
-            'filters': ['require_debug_false'],
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': 'log/security.log',
             'formatter': 'format_file',
         },
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler',
-            'formatter': 'format_error_admin',
-        }
     },
     'loggers': {
         'django': {
             'handlers': ['console_debug', 'console_warning', 'console_error', 'file_info'],
+            "level": 'DEBUG',
             'propagate': True,
         },
         'django.request': {
@@ -279,6 +279,7 @@ LOGGING = {
         },
         'django.security': {
             'handlers': ['file_security'],
+            "level": 'INFO',
             'propagate': True,
         },
     }
